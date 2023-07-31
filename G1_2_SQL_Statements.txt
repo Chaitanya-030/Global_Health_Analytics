@@ -1,0 +1,82 @@
+(1) Give the details of staff who have experience in surgery in the hospitals of India.
+
+select distinct Staff.Name,Staff.Staff_Role,Hospital.Name from ((Patients join hospital on  Patients.Hospital_ID=Hospital.Hospital_ID) join Staff on Staff.Hospital_ID=Hospital.Hospital_ID) where Patients.opertaion='Surgery' and Country_ID='IND';
+
+(2) Get average admitted days for all the operations (or for some specific operation)
+
+select avg(admitted_days),operation from Patients group by operation;
+
+(3) Gives top 2 producers of a given medicine world-wide
+
+select production_ID,medicine_ID,units_produced,company_name,
+country_name from ((((medicine_production natural join production) natural join medicine) natural join production_location) natural join country) where medicine_name='Clopidogrel' order by units_produced desc limit 2;
+
+(4) Gives total production of a country of a specific medicine
+
+select sum(units_produced),medicine_name,country_name from ((medicine_production natural join medicine) natural join country) group by medicine_name,country_name
+
+(5) Give me the price of all the medicines required to cure a disease
+
+select min(MRP),medicine_name from ((medicine_production natural join medicine) natural join disease) where disease_id=1 and country_ID='IND' group by medicine_name;
+
+(6)  State the male population of Afghanistan in 2019.
+
+select male_population from country natural join population where country_ID = 'AFG' and year = '2019';
+
+(7) What was the death count in India due to Disease-ID = 1 in year 2017.
+
+select deaths from country natural join disease_affected where country_ID = 'IND' and disease_ID = 1 and year = '2017';
+
+(8) How many different diseases occurred in Russia in year 2020.
+
+select count(disease_ID) from country natural join disease_affected where country_ID = 'RUS' and year = '2020';
+
+(9) How many patients are there in India in hospital_ID = 2?
+
+select count(patient_ID) from country natural join Hospital natural join Patients where country_ID = 'IND' and Hospital_ID = ‘2’;
+
+(10) How many funds has been allotted to Disease_ID = 3 in the year 2003?
+
+select sum(funds_recieved) from funds natural join disease_affected where disease_ID =3 and year = '2003';
+
+(11) List all the institute name and their ID's in Japan.
+
+select Institute_ID, Institute_Name from Country natural join Research where Country_ID = 'JPN';
+
+(12) What is the maximum scale value of disaster_ID = 2 in Japan in the year 2019?
+
+select max(Scale_Value) from Country natural join Disaster_Affected where Country_ID = 'JPN' and Disaster_ID = 2;
+
+(13) Give the top 3 country names where the most number of earthquakes have occurred with the number. 
+select country_name  ,count(country_code) from country natural join disaster_affected natural join disaster where disaster_type = 'Earthquake' group by country_code,country_name order by count(country_code) desc limit 3  
+
+(14) Name all the countries where the male population is less than the female population.
+
+select country_name,year from country natural join population where male_population < female_population
+
+(15) Which treaty(es) has more than 3 countries signing it.
+
+select treaty_name from treaty where treaty_id in (select treaty_id from treaty natural join treaty_signed group by treaty_id having count(country_id)>5)
+
+
+(16) Which awareness event in the countries had the most ngo's  participated?
+
+select country_name from country where country_id in (select country_id from ngo_collaboration natural join country group by country_id order by count(ngo_collaborated) desc limit 1)
+
+(17) Name the country which produces the most medicines from other.
+
+select country_name from country where country_id in (select country_id  from medicine_production group by country_id order by sum(units_produced) desc limit 1);
+
+(18) In 2015 how many deaths were caused due to the disasters in all the continents.
+
+select continent , sum(deaths) from disaster_affected natural join country where extract (year from date) = 2015 group by continent
+
+(19) What is the % of affected people who were dead in the continent of africa in the year 2020 due to 'Tuberculosis'.
+
+select sum(c.affected_people)*100/sum(c.deaths),c.continent from (country join disease_affected on country_id = country_code) as c natural join diseases where c.year = 2020 and disease_name = 'Tuberculosis' group by c.continent
+
+(20) Which disease was the most researched one according to the data provided.
+
+select research_subject from researcher_information natural join research natural join research_subject_information group by research_subject order by count(researcher_id) desc limit 1;
+
+
