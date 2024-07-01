@@ -1,13 +1,6 @@
 ## Overview
 The Global Health Analytics database is an extensive and meticulously structured project inspired by the World Health Organization (WHO). It aims to provide a comprehensive repository of data related to global health incidents, specifically focusing on diseases and disasters. This project encompasses detailed information regarding occurrences, impacts, and responses to various health crises worldwide.
 
-
-Sure, here's a comprehensive description for your "Global Health Analytics" project to include in your GitHub README file:
-
-Global Health Analytics
-Overview
-The Global Health Analytics database is an extensive and meticulously structured project inspired by the World Health Organization (WHO). It aims to provide a comprehensive repository of data related to global health incidents, specifically focusing on diseases and disasters. This project encompasses detailed information regarding occurrences, impacts, and responses to various health crises worldwide.
-
 ## Features
 ### Disaster Data: Includes records of various disasters, categorized by type, sub-type, group, and sub-group. Details include:
 1. Occurrence and scale <br/>
